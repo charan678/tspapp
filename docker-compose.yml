@@ -1,0 +1,37 @@
+version: '3'
+services:
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - network
+
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      QUEUE_NAME: 'visits'
+      PUBLISHER_SERVER: 'http://publisher:5000'
+    command: consumer
+    networks:
+      - network
+
+  publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      QUEUE_NAME: 'visits'
+    command: publisher
+    ports:
+      - '5000:5000'
+    networks:
+      - network
+    
+networks:
+  network: {}
