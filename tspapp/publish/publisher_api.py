@@ -1,7 +1,6 @@
 import os
 from flask import Flask
 from flask_restful import Resource, Api, reqparse, request
-import uuid
 import json
 from tspapp import logger
 
@@ -22,21 +21,17 @@ class ShortestPath(Resource):
     def get(self, path_id):
         return {"pathId": path_id, "shortestPath": []}
 
-
 class Vehical(Resource):
     def post(self):
         logger.debug("post request ")
         data = request.json
-        requestId = str(uuid.uuid1())
-        data["requestId"] = requestId
         store.add(data)
         rabbit_mqueue.connect()
         rabbit_mqueue.publish_message(json.dumps(data))
-        return {"requestId": requestId}
-
+        return {"id": data["id"]}
 
 api.add_resource(Vehical, '/vehical/visit/')
-api.add_resource(ShortestPath, '/path/<string:path_id>')
+api.add_resource(ShortestPath, '/vehical/path/<string:vehical_id>')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

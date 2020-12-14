@@ -1,26 +1,5 @@
 import math
-
-class Location:
-    def __init__(self, latitude, longitude):
-        self._latitude = latitude
-        self._longitude = longitude
-
-    @property
-    def latitude(self):
-        return self._latitude
-
-    @property
-    def longitude(self):
-        return self._longitude
-
-    @latitude.setter
-    def latitude(self, value):
-        self._latitude = value
-
-    @longitude.setter
-    def longitude(self, value):
-        self._longitude = value
-
+from tspapp.consumer.tsp.location import Location
 
 class Vehical:
 
@@ -53,8 +32,23 @@ class Vehical:
     def locations(self, value):
         self._locations = value
 
-    def eular_distance(self,):
-        return math.sqrt()
+    def add_location(self, latitude, longitude):
+        self.locations.append(Location(latitude, longitude))
+
+    def add_locations(self, list_lat_long):
+        for val in list_lat_long:
+            self.locations.append(Location(val['latitude'], val['longitude']))
+
+    def eular_distance_locations(self):
+        distances = {}
+        for from_counter, from_node in enumerate(self.locations):
+            distances[from_counter] = {}
+            for to_counter, to_node in enumerate(self.locations):
+                if from_counter == to_counter:
+                    distances[from_counter][to_counter] = 0
+                else:
+                    distances[from_counter][to_counter] = from_node.compute_euclidean_distance(to_node)
+        return distances
 
     def __dict__(self):
         return {
