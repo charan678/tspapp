@@ -1,8 +1,13 @@
 import os
 from tspapp.queue.queue_connection import RabbitMq
+from tspapp import logger
+import json
+
 
 def callback(ch, method, properties, body):
-    print(" [x] Received %r" % body)
+    logger.info(" [x] Received %r" % body)
+    data = json.load(body)
+
 
 if __name__ == "__main__":
     AMPQ_URL = os.environ.get("AMQP_URL", "localhost")

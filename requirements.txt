@@ -1,2 +1,6 @@
 pika
 flask-restful
+ortools
+pylint
+pytest
+autopep8
