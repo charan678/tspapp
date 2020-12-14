@@ -1,3 +1,4 @@
+import math
 
 class Location:
     def __init__(self, latitude, longitude):
@@ -51,6 +52,9 @@ class Vehical:
     @locations.setter
     def locations(self, value):
         self._locations = value
+
+    def eular_distance(self,):
+        return math.sqrt()
 
     def __dict__(self):
         return {
