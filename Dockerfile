@@ -5,7 +5,7 @@ COPY ./ /app
 
 RUN pip install -r requirements.txt
 RUN python setup.py test
-RUN pytest
+RUN python -m pytest
 RUN chmod +x docker-entrypoints.sh
 
 EXPOSE 5000
