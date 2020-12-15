@@ -21,5 +21,8 @@ def find_shortest_path(vehical_id):
             break
 
 if __name__ == '__main__':
-    publish_path(101)
-    find_shortest_path(101)
+    vehical_number = 101
+    for i in range(0, 10):
+        publish_path(vehical_number)
+        find_shortest_path(vehical_number)
+        vehical_number += 1
