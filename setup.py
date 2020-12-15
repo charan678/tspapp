@@ -7,5 +7,7 @@ setup(name='Distutils',
       description='TSP Service',
       author='Charanjeet Singh',
       author_email='charan678@hotmail.com',
-      packages=find_packages(),
+      packages=['tspapp', 'tspapp.consumer', 'tspapp.consumer.tsp', 'tspapp.publish', 'tspapp.queue'],
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest'],
       )

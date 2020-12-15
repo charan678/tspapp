@@ -4,7 +4,8 @@ WORKDIR /app
 COPY ./ /app
 
 RUN pip install -r requirements.txt
-RUN python setup.py build
+RUN python setup.py test
+RUN pytest
 RUN chmod +x docker-entrypoints.sh
 
 EXPOSE 5000
