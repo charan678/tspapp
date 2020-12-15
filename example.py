@@ -26,3 +26,4 @@ if __name__ == '__main__':
         publish_path(vehical_number)
         find_shortest_path(vehical_number)
         vehical_number += 1
+        time.sleep(5)

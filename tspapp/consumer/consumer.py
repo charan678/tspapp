@@ -16,7 +16,7 @@ def callback(ch, method, properties, body):
     vehical.add_locations(data['locations'])
     tspalgo = FirstSolutionStrategy(vehical)
     shortest_path = tspalgo.find_shortest_path()
-    requests.patch(f"{PUBLISHER_URL}/vehical/visit/101", json={"shortest_path": shortest_path})
+    requests.patch(f"{PUBLISHER_URL}/vehical/visit/{vehical}", json={"shortest_path": shortest_path})
     logger.info(".... consumed message ....")
 
 if __name__ == "__main__":

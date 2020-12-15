@@ -34,8 +34,10 @@ def vehical_visits():
 @app.route("/vehical/visit/<string:vehical_id>", methods=['PATCH'])
 def vehical_update_shortest_path(vehical_id):
     shortest_path = request.json['shortest_path']
+    logger.info(f"shortest path is = {shortest_path} for vehical = {vehical_id}")
     output = store.update(vehical_id, 'shortest_path', shortest_path)
-    logger.debug(output)
+    logger.debug(f"output = {output}")
     return json.dumps(output)
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
