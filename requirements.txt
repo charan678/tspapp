@@ -4,3 +4,4 @@ ortools
 pylint
 pytest
 autopep8
+requests

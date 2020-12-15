@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ $1 == 'publisher' ]; then
     echo "Running publisher command"

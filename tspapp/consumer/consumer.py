@@ -5,17 +5,19 @@ from tspapp.queue.queue_connection import RabbitMq
 from tspapp import logger
 from tspapp.consumer.tsp.vehical import Vehical
 from tspapp.consumer.tsp.first_solution_strategy import FirstSolutionStrategy
+import requests
+
+PUBLISHER_URL = os.environ.get('PUBLISHER_SERVER')
 
 def callback(ch, method, properties, body):
     logger.info(" [x] Received %r" % body)
-    data = json.load(body)
+    data = json.loads(body)
     vehical = Vehical(data['id'])
-    vehical.add_location(data['locations'])
-    tspalgo = FirstSolutionStrategy()
-    logger.info("shortest path is = ", tspalgo.find_shortest_path())
-
-
-
+    vehical.add_locations(data['locations'])
+    tspalgo = FirstSolutionStrategy(vehical)
+    shortest_path = tspalgo.find_shortest_path()
+    requests.patch(f"{PUBLISHER_URL}/vehical/visit/101", json={"shortest_path": shortest_path})
+    logger.info(".... consumed message ....")
 
 if __name__ == "__main__":
     AMPQ_URL = os.environ.get("AMQP_URL", "localhost")

@@ -1,5 +1,5 @@
-import math
 from __future__ import annotations
+import math
 
 class Location:
     def __init__(self, latitude, longitude):

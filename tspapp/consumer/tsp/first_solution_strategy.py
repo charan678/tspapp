@@ -7,6 +7,7 @@ from tspapp.consumer.tsp.vehical import Vehical
 
 class FirstSolutionStrategy(TSP):
     def __init__(self, vehical: Vehical):
+        self.data = {}
         self.vehical = vehical
         self.data['locations'] = vehical.locations
         self.data['num_vehicles'] = 1
@@ -26,6 +27,17 @@ class FirstSolutionStrategy(TSP):
         logger.info(plan_output)
         plan_output += 'Objective: {}m\n'.format(route_distance)
 
+    def get_shortest_path_index(self,manager, routing, solution):
+        index = routing.Start(0)
+        route_distance = 0
+        plan_output = 'Route: '
+        while not routing.IsEnd(index):
+            plan_output += ' {} ->'.format(manager.IndexToNode(index))
+            previous_index = index
+            index = solution.Value(routing.NextVar(index))
+            route_distance += routing.GetArcCostForVehicle(previous_index, index, 0)
+        return plan_output
+
     def find_shortest_path(self):
         manager = pywrapcp.RoutingIndexManager(len(self.data['locations']),
                                                self.data['num_vehicles'], self.data['depot'])
@@ -43,7 +55,4 @@ class FirstSolutionStrategy(TSP):
         search_parameters.first_solution_strategy = (
             routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
         solution = routing.SolveWithParameters(search_parameters)
-
-        if solution:
-            self._print_solution(manager, routing, solution)
-        return solution
+        return self.get_shortest_path_index(manager, routing, solution)
